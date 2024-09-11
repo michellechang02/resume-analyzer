@@ -5,17 +5,29 @@ import Link from "next/link";
 import axios from 'axios';
 import { useState } from 'react';
 
+interface ResumeResponse {
+  resume_text: string;
+  resume_strength: string;
+  job_opportunities: string[];
+  recommended_youtube_videos: string[];
+}
+
 export default function Home() {
 
-  const [resume, setResume] = useState(null);
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState<String>('');
+  const [resume, setResume] = useState<File | null>(null);
+  const [response, setResponse] = useState<ResumeResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleFileChange = (e) => {
-    setResume(e.target.files[0]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setResume(e.target.files[0]);
+    } else {
+      setResume(null); // Optionally handle cases where no file is selected
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!resume) {
       setError("Please upload a resume file.");
