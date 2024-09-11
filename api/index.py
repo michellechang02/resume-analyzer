@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 import logging
 import uvicorn
 
-from api.helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
+from helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
 
 app = FastAPI()
 
