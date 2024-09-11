@@ -4,11 +4,20 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import logging
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 from helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://nextjs-fastapi-starter-gamma-sand.vercel.app"],  # Frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 @app.get("/")
 async def root():
