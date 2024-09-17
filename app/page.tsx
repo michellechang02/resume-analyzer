@@ -59,7 +59,7 @@ export default function Home() {
 
     try {
       // Make API request
-      const res = await axios.post("https://nextjs-fastapi-starter-bms1.vercel.app/upload-resume", formData, {
+      const res = await axios.post("https://resumeanalyzer-backend.vercel.app/upload-resume", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
