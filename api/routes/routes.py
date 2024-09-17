@@ -4,7 +4,7 @@ from fastapi import File, UploadFile
 from fastapi.responses import JSONResponse
 import logging
 
-from helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
+from routes.helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
 
 
 async def root():
