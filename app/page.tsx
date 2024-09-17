@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import ResumeUpload from "./components/ResumeUpload";
 import { NextUIProvider } from '@nextui-org/react';
+import data from "../sample-data/data.json"
 
 
 interface JobOpportunity {
@@ -31,6 +32,7 @@ export default function Home() {
   const [resume, setResume] = useState<File | null>(null);
   const [response, setResponse] = useState<ResumeResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +50,7 @@ export default function Home() {
       return;
     }
     setError('');
+    setSubmitted(true);
     console.log("submitting time!");
 
     // Create FormData for file upload
@@ -74,6 +77,9 @@ export default function Home() {
       handleFileChange={handleFileChange}
       error={error}
       response={response}
+      setSubmitted={setSubmitted}
+      submitted={submitted}
+      resume={resume}
       />
     </NextUIProvider>
   );

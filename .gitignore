@@ -39,3 +39,7 @@ venv
 
 # pycache
 api/__pycache__
+
+
+# resume
+sample-data/resume.pdf
