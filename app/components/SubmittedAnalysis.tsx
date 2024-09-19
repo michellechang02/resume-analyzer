@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem, Divider } from "@chakra-ui/react";
 
 interface SearchResult {
     employer_name: string;
@@ -28,56 +29,75 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
     }
 
     return (
-        <div className="w-full max-w-md">
-            <div className="bg-white p-6 shadow-lg rounded-lg">
-                <h2 className="text-xl font-semibold">Resume Text</h2>
-                <p className="mt-2 text-gray-700"><strong>Resume Text:</strong> {response.resume_text}</p>
-            </div>
+        <Grid templateColumns="1fr 1fr" gap={6} p={4} bg="gray.100">
 
-            <div className="bg-white p-6 shadow-lg rounded-lg mt-4">
-                <h2 className="text-xl font-semibold">Resume Strength</h2>
-                <p className="mt-2 text-gray-700"><strong>Strength:</strong> {response.resume_strength}</p>
-            </div>
+        {/* Left Side: Resume Text and Strength */}
+        <VStack spacing={4} align="stretch">
+            <Box bg="white" p={6} shadow="lg" rounded="lg">
+            <Heading as="h2" size="lg" mb={2}>
+                Resume Text
+            </Heading>
+            <Text color="gray.700">
+                <strong>Resume Text:</strong> {response.resume_text}
+            </Text>
+            </Box>
+            <Box bg="white" p={6} shadow="lg" rounded="lg">
+            <Heading as="h2" size="lg" mb={2}>
+                Resume Strength
+            </Heading>
+            <Text color="gray.700">
+                <strong>Strength:</strong> {response.resume_strength}
+            </Text>
+            </Box>
+        </VStack>
 
-            <div className="bg-white p-6 shadow-lg rounded-lg mt-4">
-                <h2 className="text-xl font-semibold mb-4">Job Opportunities</h2>
-                {response.job_opportunities && response.job_opportunities.length > 0 ? (
-                    <ul className="list-disc list-inside mt-2">
-                        {response.job_opportunities.map((job, index) => (
-                            <li key={index} className="mt-2">
-                                <p className="text-gray-900 font-semibold">{job.job_title}</p>
-                                {job.search_results && job.search_results.length > 0 ? (
-                                    <ul className="ml-4 list-disc list-inside">
-                                        {job.search_results.map((result, idx) => (
-                                            <li key={idx} className="text-gray-600">
-                                                <p className="text-gray-800">Company: {result.employer_name || "Unknown"}</p>
-                                                <p className="text-gray-600">Location: {result.location || "Location not available"}</p>
-                                                <a
-                                                    href={result.url}
-                                                    className="text-blue-500 hover:underline"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    View Job Posting
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p className="text-gray-500">No results found for this job.</p>
-                                )}
-                            </li>
+        {/* Right Side: Job Opportunities and YouTube Recommendations */}
+        <VStack spacing={4} align="stretch">
+            <Box bg="white" p={6} shadow="lg" rounded="lg">
+            <Heading as="h2" size="lg" mb={4}>
+                Job Opportunities
+            </Heading>
+            {response.job_opportunities && response.job_opportunities.length > 0 ? (
+                <UnorderedList spacing={3}>
+                {response.job_opportunities.map((job, index) => (
+                    <ListItem key={index}>
+                    <Text fontWeight="semibold" color="gray.900">{job.job_title}</Text>
+                    {job.search_results && job.search_results.length > 0 ? (
+                        <UnorderedList ml={4}>
+                        {job.search_results.map((result, idx) => (
+                            <ListItem key={idx} color="gray.600">
+                            <Text color="gray.800">
+                                Company: {result.employer_name || "Unknown"}
+                            </Text>
+                            <Text>Location: {result.location || "Location not available"}</Text>
+                            <Link href={result.url} color="blue.500" isExternal>
+                                View Job Posting
+                            </Link>
+                            </ListItem>
                         ))}
-                    </ul>
-                ) : (
-                    <p className="text-gray-500">No job opportunities available at the moment.</p>
-                )}
+                        </UnorderedList>
+                    ) : (
+                        <Text color="gray.500">No results found for this job.</Text>
+                    )}
+                    </ListItem>
+                ))}
+                </UnorderedList>
+            ) : (
+                <Text color="gray.500">No job opportunities available at the moment.</Text>
+            )}
+            </Box>
 
-                <h3 className="mt-4 text-gray-700"><strong>YouTube Recommendations:</strong></h3>
-                <p className="mt-2 text-gray-700">{response.recommended_youtube_videos.join(", ")}</p>
-            </div>
+            <Box bg="white" p={6} shadow="lg" rounded="lg">
+            <Heading as="h3" size="lg" mb={4}>
+                YouTube Recommendations
+            </Heading>
+            <Text color="gray.700">
+                <strong>Recommendations:</strong> {response.recommended_youtube_videos.join(", ")}
+            </Text>
+            </Box>
+        </VStack>
 
-        </div>
+    </Grid>
     );
 };
 

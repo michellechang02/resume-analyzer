@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useEffect } from "react";
 import SubmittedAnalysis from "./SubmittedAnalysis";
+import { Box, Button, Input, Text, VStack, Heading, Flex } from '@chakra-ui/react'
 
 interface JobOpportunity {
     job_title: string;
@@ -30,8 +31,6 @@ interface ResumeUploadProps {
   }
 
 
-  
-
 const ResumeUpload: React.FC<ResumeUploadProps> = ({
     handleSubmit,
     handleFileChange,
@@ -48,55 +47,94 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
 
 
   return (
-
-
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4 space-y-6">
-      
-      {!submitted && (
-    <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg mx-auto">
-      <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Upload Resume</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex flex-col items-center">
-          <label
-            htmlFor="file-upload"
-            className="cursor-pointer w-full py-2 px-4 border border-gray-300 rounded-lg text-gray-700 text-center bg-gray-100 hover:bg-gray-200 transition"
-          >
-            {resume ? resume.name : "Select a PDF File"}
-            <input
-              id="file-upload"
-              type="file"
-              accept="application/pdf"
-              onChange={handleFileChange}
-              className="hidden"
-            />
+    <>
+  {!submitted && (
+    <Flex
+      bg="gray.100"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      p="4"
+      minH="100vh"
+      minW="100wh"
+    >
+    <Box w="full" maxW="md" bg="white" p="8" shadow="lg" rounded="lg" mx="auto">
+      <Heading as="h1" size="lg" mb="6" textAlign="center" color="gray.800">
+        Upload Resume
+      </Heading>
+      <form onSubmit={handleSubmit}>
+      <VStack spacing={6}>
+        <Box w="full" textAlign="center">
+          <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
+            <Box
+              py="2"
+              px="4"
+              border="1px solid"
+              borderColor="gray.300"
+              rounded="lg"
+              bg="gray.100"
+              _hover={{ bg: 'gray.200' }}
+              transition="background 0.2s"
+            >
+              {resume ? resume.name : "Select a PDF File"}
+              <Input
+                id="file-upload"
+                type="file"
+                accept="application/pdf"
+                onChange={handleFileChange}
+                display="none"
+              />
+            </Box>
           </label>
-        </div>
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-        <button
+        </Box>
+        {error && (
+          <Text color="red.500" fontSize="sm" textAlign="center">
+            {error}
+          </Text>
+        )}
+        <Button
           type="submit"
-          className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300 ease-in-out"
+          w="full"
+          bg="blue.500"
+          color="white"
+          py="3"
+          rounded="lg"
+          fontWeight="semibold"
+          _hover={{ bg: 'blue.600' }}
+          transition="background 0.3s ease-in-out"
         >
           Submit
-        </button>
+        </Button>
+      </VStack>
       </form>
-    </div>
+    </Box>
+    </Flex>
   )}
 
-    {submitted && response && <div>
-        <SubmittedAnalysis response={response}/>
-        </div>
-    }
-    {submitted && response && 
-    <div className="mt-4">
-        <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-            onClick={() => setSubmitted(false)}
-        >
+  {submitted && response && (
+    <Box mt="4" textAlign="center">
+      <Button
+        bg="blue.500"
+        color="white"
+        py="2"
+        px="4"
+        rounded="lg"
+        _hover={{ bg: 'blue.700' }}
+        transition="background 0.3s"
+        onClick={() => setSubmitted(false)}
+      >
         Go Back
-        </button>
-    </div>}
+      </Button>
+    </Box>
+  )}
 
-    </div>
+  {submitted && response && (
+    <Box>
+      <SubmittedAnalysis response={response} />
+    </Box>
+  )}
+
+  </>
   );
 };
 

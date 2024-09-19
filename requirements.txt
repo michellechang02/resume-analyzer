@@ -2,3 +2,7 @@ fastapi==0.100.1
 uvicorn[standard]==0.23.2
 PyPDF2==3.0.1     # Library for handling PDF files
 python-multipart
+fastapi-cors
+requests
+google-auth-oauthlib
+google-api-python-client

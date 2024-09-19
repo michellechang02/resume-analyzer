@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import axios from 'axios';
 import { useState } from 'react';
+import { ChakraProvider } from "@chakra-ui/react";
 import ResumeUpload from "./components/ResumeUpload";
-import { NextUIProvider } from '@nextui-org/react';
 import data from "../sample-data/data.json"
 
 
@@ -71,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <NextUIProvider>
+    <ChakraProvider>
       <ResumeUpload 
       handleSubmit={handleSubmit} 
       handleFileChange={handleFileChange}
@@ -81,6 +79,6 @@ export default function Home() {
       submitted={submitted}
       resume={resume}
       />
-    </NextUIProvider>
+    </ChakraProvider>
   );
 }
