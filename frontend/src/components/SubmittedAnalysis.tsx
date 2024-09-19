@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem, Divider } from "@chakra-ui/react";
+import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem } from "@chakra-ui/react";
 
 interface SearchResult {
     employer_name: string;
