@@ -3,15 +3,22 @@ import io
 from fastapi import File, UploadFile
 from fastapi.responses import JSONResponse
 import logging
+import os
 
-from routes.helper import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
+
+from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
+
+
+uri = os.getenv("MONGODB_URL")
 
 async def root():
     return "Hello, World!"
 
 async def upload_resume(file: UploadFile = File(...)):
-    # Log the file reception
+          # Log the file reception
     logging.info(f"Received file: {file.filename}")
     
     if file.filename == "":
@@ -28,9 +35,9 @@ async def upload_resume(file: UploadFile = File(...)):
         resume_text = ""
 
         # Iterate through all pages and extract text, making all lowercase
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            resume_text += page.extract_text().lower()
+        for _, page in enumerate(pdf_reader.pages):
+        # Extract text and convert to lowercase, then replace newline characters
+            resume_text += page.extract_text().lower().replace('\n', ' ')
 
         # Process the resume content
         resume_strength = analyze_resume_strength(resume_text)
@@ -48,3 +55,16 @@ async def upload_resume(file: UploadFile = File(...)):
         logging.error(f"Error reading PDF file: {str(e)}")
         return JSONResponse({"error": "Invalid PDF file"}, status_code=400)
 
+
+
+async def post_data():
+    client = MongoClient(uri, server_api=ServerApi('1'))
+
+    try:
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
+
+async def get_similar_resume():
+    pass

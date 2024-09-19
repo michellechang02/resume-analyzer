@@ -1,77 +1,47 @@
-import requests
-from typing import List
-
-# Placeholder function to analyze resume strength
-def analyze_resume_strength(resume_text: str) -> str:
-    # Extract relevant sections from the resume text
-    if "Software Engineering Intern" in resume_text and "Microsoft" in resume_text:
-        experience = "Strong experience in top-tier companies like Microsoft and Qualcomm."
-    else:
-        experience = "Experience in reputable companies."
-
-    if "University of Pennsylvania" in resume_text and "Computer Science" in resume_text:
-        education = "Solid educational background from a prestigious institution."
-    else:
-        education = "Good educational background."
-
-    if "Python" in resume_text and "React" in resume_text and "DevOps/MLOps" in resume_text:
-        skills = "Excellent technical skills, including programming and DevOps/MLOps expertise."
-    else:
-        skills = "Relevant technical skills."
-
-    # Combine all the insights to generate an analysis
-    analysis = f"{education} {experience} {skills}"
-
-    return analysis
-
-def call_job_search_api(query: str) -> List[dict]:
-    url = f"https://jsearch.p.rapidapi.com/search?query={query}&page=1&num_pages=1&date_posted=all"
-    
-    headers = {
-        "x-rapidapi-host": "jsearch.p.rapidapi.com",
-        "x-rapidapi-key": "e76eef3aa7msh8f954766c77e6e0p15c728jsn199ab7529201"
+def find_ideal_job(resume_text: str) -> str:
+    job_keywords = {
+    'HR': ['recruitment', 'human resources', 'interviewing', 'employee relations', 'onboarding', 'payroll', 'talent management'],
+    'Designer': ['graphic design', 'adobe photoshop', 'adobe illustrator', 'creativity', 'typography', 'branding', 'visual design'],
+    'Information-Technology': ['networking', 'database management', 'system administration', 'cloud computing', 'cybersecurity', 'it support'],
+    'Teacher': ['curriculum design', 'classroom management', 'lesson planning', 'assessment', 'instructional design', 'student engagement'],
+    'Advocate': ['legal research', 'litigation', 'client counseling', 'case management', 'contract law', 'negotiation'],
+    'Business-Development': ['business strategy', 'sales', 'lead generation', 'market research', 'partnerships', 'client acquisition'],
+    'Healthcare': ['patient care', 'medical records', 'nursing', 'diagnostics', 'clinical procedures', 'healthcare management'],
+    'Fitness': ['personal training', 'exercise programs', 'nutrition', 'health coaching', 'physical fitness', 'injury prevention'],
+    'Agriculture': ['crop management', 'agronomy', 'soil science', 'irrigation', 'sustainable farming', 'agricultural technology'],
+    'BPO': ['call center', 'customer service', 'technical support', 'communication skills', 'time management', 'data entry'],
+    'Sales': ['negotiation', 'lead generation', 'closing deals', 'account management', 'client relationship', 'sales strategies'],
+    'Consultant': ['business analysis', 'problem solving', 'strategic planning', 'market research', 'client advising', 'project management'],
+    'Digital-Media': ['content creation', 'video editing', 'social media marketing', 'digital marketing', 'online advertising', 'SEO'],
+    'Automobile': ['automotive engineering', 'vehicle maintenance', 'mechanical systems', 'diagnostics', 'vehicle repair', 'engine tuning'],
+    'Chef': ['culinary arts', 'menu planning', 'food preparation', 'recipe development', 'kitchen management', 'food safety'],
+    'Finance': ['financial analysis', 'accounting', 'budgeting', 'taxation', 'financial reporting', 'investment management'],
+    'Apparel': ['fashion design', 'textile knowledge', 'merchandising', 'pattern making', 'clothing production', 'fashion marketing'],
+    'Engineering': ['mechanical engineering', 'electrical engineering', 'civil engineering', 'CAD', 'project management', 'problem solving'],
+    'Accountant': ['accounting', 'taxation', 'financial reporting', 'auditing', 'bookkeeping', 'payroll', 'budgeting'],
+    'Construction': ['project management', 'blueprint reading', 'construction management', 'safety regulations', 'structural engineering'],
+    'Public-Relations': ['media relations', 'press releases', 'communication', 'crisis management', 'branding', 'event planning'],
+    'Banking': ['financial services', 'loan processing', 'customer service', 'risk assessment', 'compliance', 'investment management'],
+    'Arts': ['painting', 'sculpting', 'creative expression', 'art history', 'illustration', 'gallery exhibition'],
+    'Aviation': ['piloting', 'flight safety', 'aircraft maintenance', 'air traffic control', 'navigation', 'flight planning']
     }
+
+    # Track keyword matches
+    job_match_counts = {job: 0 for job in job_keywords}
     
-    response = requests.get(url, headers=headers)
+    # Check for each job category how many keywords match the resume
+    for job, keywords in job_keywords.items():
+        for keyword in keywords:
+            if keyword in resume_text:
+                job_match_counts[job] += 1
     
-    if response.status_code == 200:
-        return response.json().get("data", [])
-    else:
-        raise Exception(f"Failed to retrieve data: {response.status_code}, {response.text}")
-
-def suggest_job_opportunities(resume_text: str) -> List[str]:
-    job_suggestions = []
-
-    # Suggest jobs based on resume_text
-    if "software" in resume_text.lower():
-        job_suggestions.append("Software Engineer")
-    if "backend" in resume_text.lower():
-        job_suggestions.append("Backend Developer")
-    if "full stack" in resume_text.lower() or "frontend" in resume_text.lower():
-        job_suggestions.append("Full Stack Developer")
-    if "node.js" in resume_text.lower():
-        job_suggestions.append("Node.js Developer")
-
-    # Call API for each suggested job
-    job_opportunities = []
-    for job in job_suggestions:
-        try:
-            query = f"{job} in New-York,USA"
-            search_results = call_job_search_api(query)
-            job_opportunities.append({
-                "job_title": job,
-                "search_results": search_results
-            })
-        except Exception as e:
-            print(f"Error retrieving job opportunities for {job}: {e}")
-
-    # Return the job opportunities
-    return job_opportunities
-
-# Placeholder function to recommend YouTube videos
-def recommend_youtube_videos(resume_text: str) -> List[str]:
-    # Recommend YouTube videos based on job opportunities
-    return [
-        "https://www.youtube.com/watch?v=abc123 - How to Become a Software Engineer",
-        "https://www.youtube.com/watch?v=def456 - Full Stack Developer Roadmap",
-    ]
+    # Find the job with the highest match count
+    ideal_job = max(job_match_counts, key=job_match_counts.get)
+    
+    # If no matches found, return a default response
+    if job_match_counts[ideal_job] == 0:
+        # no jobs
+        return ""
+    
+    # ideal job
+    return f"{ideal_job}"
