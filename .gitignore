@@ -43,3 +43,7 @@ api/__pycache__
 
 # resume
 sample-data/resume.pdf
+
+# no .env
+api/routes/.env
+app/.env
