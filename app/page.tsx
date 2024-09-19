@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { ChakraProvider } from "@chakra-ui/react";
 import ResumeUpload from "./components/ResumeUpload";
-import data from "../sample-data/data.json"
 
 
 interface JobOpportunity {
