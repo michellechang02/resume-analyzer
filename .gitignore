@@ -39,6 +39,7 @@ venv
 
 # pycache
 api/__pycache__
+api/routes/__pycache__
 
 
 # resume
