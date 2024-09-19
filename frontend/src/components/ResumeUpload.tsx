@@ -55,8 +55,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
       alignItems="center"
       justifyContent="center"
       p="4"
-      minH="100vh"
-      minW="100wh"
+      height="100vh"
+      width="100vw"
     >
     <Box w="full" maxW="md" bg="white" p="8" shadow="lg" rounded="lg" mx="auto">
       <Heading as="h1" size="lg" mb="6" textAlign="center" color="gray.800">

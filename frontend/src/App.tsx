@@ -1,9 +1,7 @@
-"use client";
-
 import axios from 'axios';
 import { useState } from 'react';
 import { ChakraProvider } from "@chakra-ui/react";
-import ResumeUpload from "./components/ResumeUpload";
+import ResumeUpload from './components/ResumeUpload';
 
 
 interface JobOpportunity {
@@ -24,7 +22,7 @@ interface ResumeResponse {
   recommended_youtube_videos: string[];
 }
 
-export default function Home() {
+export default function App() {
 
   const [resume, setResume] = useState<File | null>(null);
   const [response, setResponse] = useState<ResumeResponse | null>(null);
