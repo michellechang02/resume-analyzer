@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { ChakraProvider } from "@chakra-ui/react";
 import ResumeUpload from './components/ResumeUpload';
+import data from './data.json'
 
 
 interface JobOpportunity {
@@ -17,6 +18,8 @@ interface SearchResult {
 
 interface ResumeResponse {
   resume_text: string;
+  numbers_query: string[];
+  verbs_query: string[];
   resume_strength: string;
   job_opportunities: JobOpportunity[];
   recommended_youtube_videos: string[];
@@ -25,9 +28,9 @@ interface ResumeResponse {
 export default function App() {
 
   const [resume, setResume] = useState<File | null>(null);
-  const [response, setResponse] = useState<ResumeResponse | null>(null);
+  const [response, setResponse] = useState<ResumeResponse | null>(data);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(true);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

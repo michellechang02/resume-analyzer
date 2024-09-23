@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem, Highlight } from "@chakra-ui/react";
 
 interface SearchResult {
     employer_name: string;
@@ -14,6 +14,8 @@ interface JobOpportunity {
 
 interface ResumeResponse {
     resume_text: string;
+    numbers_query: string[];
+    verbs_query: string[];
     resume_strength: string;
     job_opportunities: JobOpportunity[];
     recommended_youtube_videos: string[];
@@ -22,6 +24,31 @@ interface ResumeResponse {
 interface SubmittedAnalysisProps {
     response: ResumeResponse | null;
 }
+
+const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[]) => {
+    // Split the text into words and preserve non-alphanumeric characters (like hyphens)
+    return text.split(/(\W+)/).map((word, index) => {
+      // Check if the word (or part of a hyphenated word) is in the numbers query
+      if (numbersQuery.some(query => word.includes(query))) {
+        return (
+          <Box as="span" key={index} bg="green.100" px="2" py="1" rounded="full">
+            {word}
+          </Box>
+        );
+      } 
+      // Check if the word is a verb
+      else if (verbsQuery.includes(word)) {
+        return (
+          <Box as="span" key={index} bg="blue.100" px="2" py="1" rounded="full">
+            {word}
+          </Box>
+        );
+      }
+      // Return the word with a space (preserving original spacing and punctuation)
+      return word;
+    });
+  };
+  
 
 const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
     if (!response) {
@@ -38,8 +65,9 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
                 Resume Text
             </Heading>
             <Text color="gray.700">
-                <strong>Resume Text:</strong> {response.resume_text}
-            </Text>
+            <strong>Resume Text:</strong> 
+            {highlightText(response.resume_text, response.numbers_query, response.verbs_query)}
+        </Text>
             </Box>
             <Box bg="white" p={6} shadow="lg" rounded="lg">
             <Heading as="h2" size="lg" mb={2}>

@@ -15,10 +15,12 @@ interface JobOpportunity {
   
   interface ResumeResponse {
     resume_text: string;
+    numbers_query: string[];
+    verbs_query: string[];
     resume_strength: string;
     job_opportunities: JobOpportunity[];
     recommended_youtube_videos: string[];
-  }
+}
 
 interface ResumeUploadProps {
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
@@ -111,9 +113,12 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
     </Flex>
   )}
 
+ 
   {submitted && response && (
-    <Box mt="4" textAlign="center">
+    <Box minH="100vh" minW="100wh" bg="gray.100">
+      <Box textAlign="center" bg="gray.100">
       <Button
+        mt={5}
         bg="blue.500"
         color="white"
         py="2"
@@ -126,10 +131,6 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
         Go Back
       </Button>
     </Box>
-  )}
-
-  {submitted && response && (
-    <Box>
       <SubmittedAnalysis response={response} />
     </Box>
   )}

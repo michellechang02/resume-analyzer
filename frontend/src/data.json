@@ -1,0 +1,38 @@
+{
+    "resume_text": "40-year old experienced software developer with a focus on 20 web applications and  data-driven solutions. Automated existing ML algorithms with MLOps tools (DVC, CML) to save 1TB of space and 1 hour per day in testing ML models for Qualcomm’s network drives.",
+    "resume_strength": "Strong",
+    "numbers_query": ["20", "40"],
+    "verbs_query": ["Automated"],
+    "job_opportunities": [
+      {
+        "job_title": "Frontend Developer",
+        "search_results": [
+          {
+            "employer_name": "Tech Innovators",
+            "location": "San Francisco, CA",
+            "url": "https://www.techinnovators.com/jobs/frontend-developer"
+          },
+          {
+            "employer_name": "Creative Solutions",
+            "location": "New York, NY",
+            "url": "https://www.creativesolutions.com/careers/frontend-developer"
+          }
+        ]
+      },
+      {
+        "job_title": "Backend Developer",
+        "search_results": [
+          {
+            "employer_name": "Data Masters",
+            "location": "Austin, TX",
+            "url": "https://www.datamasters.com/careers/backend-developer"
+          }
+        ]
+      }
+    ],
+    "recommended_youtube_videos": [
+      "https://www.youtube.com/watch?v=abcd1234",
+      "https://www.youtube.com/watch?v=efgh5678"
+    ]
+  }
+  
