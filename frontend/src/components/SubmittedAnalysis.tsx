@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem, Highlight } from "@chakra-ui/react";
+import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem } from "@chakra-ui/react";
 
 interface SearchResult {
     employer_name: string;
@@ -26,9 +26,7 @@ interface SubmittedAnalysisProps {
 }
 
 const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[]) => {
-    // Split the text into words and preserve non-alphanumeric characters (like hyphens)
     return text.split(/(\W+)/).map((word, index) => {
-      // Check if the word (or part of a hyphenated word) is in the numbers query
       if (numbersQuery.some(query => word.includes(query))) {
         return (
           <Box as="span" key={index} bg="green.100" px="2" py="1" rounded="full">
@@ -36,7 +34,6 @@ const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[
           </Box>
         );
       } 
-      // Check if the word is a verb
       else if (verbsQuery.includes(word)) {
         return (
           <Box as="span" key={index} bg="blue.100" px="2" py="1" rounded="full">
@@ -44,7 +41,6 @@ const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[
           </Box>
         );
       }
-      // Return the word with a space (preserving original spacing and punctuation)
       return word;
     });
   };
