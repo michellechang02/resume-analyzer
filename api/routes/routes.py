@@ -9,7 +9,22 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
-from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos
+from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos, get_verbs, get_numbers
+
+
+'''
+interface ResumeResponse {
+    resume_text: string;
+    numbers_query: string[];
+    verbs_query: string[];
+    resume_strength: string;
+    job_opportunities: JobOpportunity[];
+    recommended_youtube_videos: string[];
+}
+
+'''
+
+
 
 
 uri = os.getenv("MONGODB_URL")
@@ -43,9 +58,14 @@ async def upload_resume(file: UploadFile = File(...)):
         resume_strength = analyze_resume_strength(resume_text)
         job_opportunities = suggest_job_opportunities(resume_text)
         youtube_videos = recommend_youtube_videos(resume_text)
+        numbers_query = get_numbers(resume_text)
+        verbs_query = get_verbs(resume_text)
+      
 
         return {
             "resume_text": resume_text,
+            "numbers_query": numbers_query,
+            "verbs_query": verbs_query,
             "resume_strength": resume_strength,
             "job_opportunities": job_opportunities,
             "recommended_youtube_videos": youtube_videos

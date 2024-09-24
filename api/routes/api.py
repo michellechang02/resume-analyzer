@@ -1,6 +1,12 @@
 import requests
+import re
+import nltk
 from typing import List
+from nltk import word_tokenize, pos_tag
 
+# download necessary libraries from nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 # Placeholder function to analyze resume strength
 def analyze_resume_strength(resume_text: str) -> str:
@@ -105,3 +111,17 @@ def recommend_youtube_videos(resume_text: str) -> List[str]:
     # Recommend YouTube videos based on job opportunities
     query_to_invoke = ""
     return call_youtube_api(resume_text)
+
+
+# function to get verbs
+def get_verbs(resume_text: str) -> List[str]:
+    tokens = word_tokenize(resume_text)
+    tagged_tokens = pos_tag(tokens)
+    # Extract verbs (tag starts with 'VB')
+    verbs = [word for word, pos in tagged_tokens if pos.startswith('VB')]
+    return verbs
+
+
+# function to get verbs
+def get_numbers(resume_text: str) -> List[str]:
+    return re.findall(r'\d+', resume_text)
