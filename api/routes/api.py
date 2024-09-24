@@ -5,8 +5,9 @@ from typing import List
 from nltk import word_tokenize, pos_tag
 
 # download necessary libraries from nltk
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+nltk.data.path.append('/tmp/nltk_data')
+nltk.download('punkt', download_dir='/tmp/nltk_data')
+nltk.download('averaged_perceptron_tagger', download_dir='/tmp/nltk_data')
 
 # Placeholder function to analyze resume strength
 def analyze_resume_strength(resume_text: str) -> str:
