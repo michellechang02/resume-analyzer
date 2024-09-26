@@ -62,16 +62,16 @@ def suggest_job_opportunities(resume_text: str) -> List[str]:
 
     # Call API for each suggested job
     job_opportunities = []
-    for job in job_suggestions:
-        try:
-            query = f"{job} in New-York,USA"
-            search_results = call_job_search_api(query)
-            job_opportunities.append({
-                "job_title": job,
-                "search_results": search_results
-            })
-        except Exception as e:
-            print(f"Error retrieving job opportunities for {job}: {e}")
+    # for job in job_suggestions:
+    #     try:
+    #         query = f"{job} in New-York,USA"
+    #         search_results = call_job_search_api(query)
+    #         job_opportunities.append({
+    #             "job_title": job,
+    #             "search_results": search_results
+    #         })
+    #     except Exception as e:
+    #         print(f"Error retrieving job opportunities for {job}: {e}")
 
     # Return the job opportunities
     return job_opportunities
@@ -107,11 +107,11 @@ def call_youtube_api(query: str) -> list:
         return []
 
 
-# Placeholder function to recommend YouTube videos
+# hard code for now!
 def recommend_youtube_videos(resume_text: str) -> List[str]:
     # Recommend YouTube videos based on job opportunities
     query_to_invoke = ""
-    return call_youtube_api(resume_text)
+    return ["https://www.youtube.com/watch?v=abcd1234, https://www.youtube.com/watch?v=efgh5678"]
 
 
 # function to get verbs

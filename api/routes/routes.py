@@ -12,20 +12,6 @@ from pymongo.server_api import ServerApi
 from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos, get_verbs, get_numbers
 
 
-'''
-interface ResumeResponse {
-    resume_text: string;
-    numbers_query: string[];
-    verbs_query: string[];
-    resume_strength: string;
-    job_opportunities: JobOpportunity[];
-    recommended_youtube_videos: string[];
-}
-
-'''
-
-
-
 
 uri = os.getenv("MONGODB_URL")
 
@@ -76,7 +62,7 @@ async def upload_resume(file: UploadFile = File(...)):
         return JSONResponse({"error": "Invalid PDF file"}, status_code=400)
 
 
-
+# post data.json to mongodb cluster
 async def post_data():
     client = MongoClient(uri, server_api=ServerApi('1'))
 
@@ -86,5 +72,7 @@ async def post_data():
     except Exception as e:
         print(e)
 
+
+# connect to mongo db database, trying to get similar resume
 async def get_similar_resume():
     pass
