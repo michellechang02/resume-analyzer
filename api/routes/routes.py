@@ -59,7 +59,7 @@ async def upload_resume(file: UploadFile = File(...)):
 
     except Exception as e:
         logging.error(f"Error reading PDF file: {str(e)}")
-        return JSONResponse({"error": "Invalid PDF file"}, status_code=400)
+        return JSONResponse({"error": "Invalid PDF file", "detail": str(e)}, status_code=400)
 
 
 # post data.json to mongodb cluster
