@@ -1,0 +1,13 @@
+{
+  "name": "resume-analyzer",
+  "version": "1.0.0",
+  "description": "Final Project for CIS 7000: Interactive Reading.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd frontend && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

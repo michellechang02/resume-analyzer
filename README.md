@@ -2,7 +2,7 @@
 
 Final Project for CIS 7000: Interactive Reading. 
 
-- built with Next.js (frontend), FastAPI (backend)
+- built with Vite + TypeScript (frontend), FastAPI (backend)
 
 ### Papers Referenced
 
