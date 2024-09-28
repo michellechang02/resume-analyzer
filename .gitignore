@@ -50,3 +50,5 @@ api/routes/.env
 app/.env
 
 api/nltk_data
+
+tester.ipynb

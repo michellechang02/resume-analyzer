@@ -1,5 +1,6 @@
-import React from 'react';
-import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { Box, Grid, Heading, Text, Link, VStack, UnorderedList, ListItem, Button,
+HStack } from "@chakra-ui/react";
 
 interface SearchResult {
     employer_name: string;
@@ -47,6 +48,13 @@ const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[
   
 
 const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
+
+    const [showNumbers, setShowNumbers] = useState(true);
+    const [showVerbs, setShowVerbs] = useState(true);
+
+    const toggleNumbers = () => setShowNumbers(!showNumbers);
+    const toggleVerbs = () => setShowVerbs(!showVerbs);
+
     if (!response) {
         return null;
     }
@@ -57,13 +65,41 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
         {/* Left Side: Resume Text and Strength */}
         <VStack spacing={4} align="stretch">
             <Box bg="white" p={6} shadow="lg" rounded="lg">
-            <Heading as="h2" size="lg" mb={2}>
-                Resume Text
-            </Heading>
-            <Text color="gray.700">
-            <strong>Resume Text:</strong> 
-            {highlightText(response.resume_text, response.numbers_query, response.verbs_query)}
-        </Text>
+                <HStack mb={3}>
+                <Heading as="h2" size="lg" mb={2} mr={3}>
+                    Resume Text
+                </Heading>
+                <Box>
+                    <Button
+                    onClick={toggleNumbers}
+                    mr={2}
+                    size="sm"
+                    variant={showNumbers ? 'solid' : 'ghost'}
+                    bg={showNumbers ? 'green.200' : 'green.100'}
+                    fontWeight={showNumbers ? 'bold' : 'normal'}
+                    color="black"
+                    >
+                    {showNumbers ? 'Hide Numbers' : 'Show Numbers'}
+                    </Button>
+                    <Button
+                    onClick={toggleVerbs}
+                    size="sm"
+                    variant={showVerbs ? 'solid' : 'ghost'}
+                    bg={showVerbs ? 'blue.200' : 'blue.100'}
+                    fontWeight={showVerbs ? 'bold' : 'normal'}
+                    color="black"
+                    >
+                    {showVerbs ? 'Hide Verbs' : 'Show Verbs'}
+                    </Button>
+                </Box>
+            </HStack>
+            <Box p={4} borderWidth="1px" borderRadius="lg">
+                {highlightText(
+                response.resume_text,
+                showNumbers ? response.numbers_query : [],
+                showVerbs ? response.verbs_query : []
+                )}
+            </Box>
             </Box>
             <Box bg="white" p={6} shadow="lg" rounded="lg">
             <Heading as="h2" size="lg" mb={2}>
