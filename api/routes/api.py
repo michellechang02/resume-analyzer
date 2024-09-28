@@ -1,7 +1,7 @@
 import requests
 import re
 from typing import List
-from textblob import TextBlob
+from textblob import TextBlob, download_corpora
 
 
 # Placeholder function to analyze resume strength
@@ -108,6 +108,8 @@ def recommend_youtube_videos(resume_text: str) -> List[str]:
     query_to_invoke = ""
     return ["https://www.youtube.com/watch?v=abcd1234, https://www.youtube.com/watch?v=efgh5678"]
 
+
+download_corpora()
 
 def get_verbs(resume_text: str) -> List[str]:
     blob = TextBlob(resume_text)
