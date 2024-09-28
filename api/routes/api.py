@@ -1,7 +1,6 @@
 import requests
 import re
 from typing import List
-from textblob import TextBlob, download_corpora
 
 
 # Placeholder function to analyze resume strength
@@ -109,14 +108,11 @@ def recommend_youtube_videos(resume_text: str) -> List[str]:
     return ["https://www.youtube.com/watch?v=abcd1234, https://www.youtube.com/watch?v=efgh5678"]
 
 
-download_corpora()
 
 def get_verbs(resume_text: str) -> List[str]:
-    blob = TextBlob(resume_text)
-    # Extract verbs based on part-of-speech tagging
-    verbs = [word for word, pos in blob.tags if pos.startswith('VB')]
+    verb_pattern = r'\b\w+(ing|ed|s|es|ate|ify|ize|ise)\b'
+    verbs = re.findall(verb_pattern, resume_text, re.IGNORECASE)
     return verbs
-
 
 # function to get verbs
 def get_numbers(resume_text: str) -> List[str]:
