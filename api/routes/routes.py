@@ -12,7 +12,6 @@ from pymongo.server_api import ServerApi
 from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos, get_verbs, get_numbers
 
 
-
 uri = os.getenv("MONGODB_URL")
 
 async def root():

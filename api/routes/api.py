@@ -1,8 +1,7 @@
 import requests
 import re
-import nltk
 from typing import List
-import spacy
+from textblob import TextBlob
 
 
 # Placeholder function to analyze resume strength
@@ -110,20 +109,10 @@ def recommend_youtube_videos(resume_text: str) -> List[str]:
     return ["https://www.youtube.com/watch?v=abcd1234, https://www.youtube.com/watch?v=efgh5678"]
 
 
-def download_model():
-    try:
-        spacy.load("en_core_web_sm")
-    except OSError:
-        spacy.cli.download("en_core_web_sm")
-
-# Load SpaCy model
-download_model()
-nlp = spacy.load("en_core_web_sm")
-
-# function to get verbs
 def get_verbs(resume_text: str) -> List[str]:
-    doc = nlp(resume_text)
-    verbs = [token.text for token in doc if token.pos_ == "VERB"]
+    blob = TextBlob(resume_text)
+    # Extract verbs based on part-of-speech tagging
+    verbs = [word for word, pos in blob.tags if pos.startswith('VB')]
     return verbs
 
 

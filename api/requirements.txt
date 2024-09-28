@@ -6,4 +6,4 @@ fastapi-cors
 requests
 python-dotenv
 pymongo
-spacy
+textblob==0.17.1
