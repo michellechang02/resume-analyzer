@@ -31,6 +31,7 @@ export default function App() {
   const [response, setResponse] = useState<ResumeResponse | null>(data);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,8 +49,7 @@ export default function App() {
       return;
     }
     setError('');
-    setSubmitted(true);
-    console.log("submitting time!");
+    setIsLoading(true);
 
     // Create FormData for file upload
     const formData = new FormData();
@@ -65,6 +65,9 @@ export default function App() {
       setResponse(res.data);
     } catch (error) {
       setError("Failed to upload resume. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setSubmitted(true);
     }
   };
 
@@ -78,6 +81,7 @@ export default function App() {
       setSubmitted={setSubmitted}
       submitted={submitted}
       resume={resume}
+      isLoading={isLoading}
       />
     </ChakraProvider>
   );
