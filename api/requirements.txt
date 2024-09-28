@@ -6,4 +6,4 @@ fastapi-cors
 requests
 python-dotenv
 pymongo
-nltk
+spacy

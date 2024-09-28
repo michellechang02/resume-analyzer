@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.routes import root, upload_resume, post_data, get_similar_resume
 from dotenv import load_dotenv
-import os
 
 
 load_dotenv()

@@ -48,3 +48,5 @@ sample-data/resume.pdf
 # no .env
 api/routes/.env
 app/.env
+
+api/nltk_data
