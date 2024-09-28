@@ -109,8 +109,10 @@ def recommend_youtube_videos(resume_text: str) -> List[str]:
 
 
 
-def get_verbs(resume_text: str) -> List[str]:
-    verb_pattern = r'\b\w+(ing|ed|s|es|ate|ify|ize|ise)\b'
+def get_verbs(resume_text):
+    # Define a basic regex for finding simple verb forms (this is not comprehensive)
+    verb_pattern = r'\b\w+ed\b'
+    # Find all verbs in the resume text using the regex pattern
     verbs = re.findall(verb_pattern, resume_text, re.IGNORECASE)
     return verbs
 
