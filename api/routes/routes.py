@@ -72,6 +72,3 @@ async def post_data():
         print(e)
 
 
-# connect to mongo db database, trying to get similar resume
-async def get_similar_resume():
-    pass
