@@ -1,6 +1,7 @@
 import requests
 import re
-from typing import List
+from typing import List, Tuple
+from collections import Counter
 from routes.constants import COMMON_KEYWORDS, STOPWORDS
 
 
@@ -104,13 +105,12 @@ def call_youtube_api(query: str) -> List[dict]:
         return []
 
 
-# Manually improved function to extract keywords from resume text
-def extract_keywords(resume_text: str) -> List[str]:
+def extract_keywords(resume_text: str) -> List[Tuple[str, int]]:
     # Split the text into words
     words = re.findall(r'\b\w+\b', resume_text)
 
-    # Initialize a list to store keywords
-    keywords = []
+    # Initialize a Counter to store keyword frequencies
+    keyword_counter = Counter()
 
     for word in words:
         # Convert word to lowercase for standardization
@@ -120,23 +120,40 @@ def extract_keywords(resume_text: str) -> List[str]:
         if len(lower_word) > 3 and lower_word not in STOPWORDS:
             # Check if the word is in the common keywords list or has certain characteristics
             if lower_word in COMMON_KEYWORDS:
-                keywords.append(word)
+                keyword_counter[lower_word] += 1
 
-    return list(set(keywords))
+    # Convert the Counter object to a list of tuples (keyword, frequency)
+    ranked_keywords = keyword_counter.most_common(5)
+
+    return ranked_keywords
+
+
+def get_youtube_keywords(resume_text: str):
+    ranked_keywords = extract_keywords(resume_text)
+    return [keyword for (keyword, _) in ranked_keywords]
+
+
 
 
 def recommend_youtube_videos(resume_text: str) -> List[str]:
-    keywords = extract_keywords(resume_text)[5]
+    # Extract and rank keywords from the resume text
+    ranked_keywords = extract_keywords(resume_text)
     recommended_videos = []
 
-    # Get videos for each keyword (you can adjust to improve relevance)
-    for keyword in keywords:
+    # Keep track of the number of videos collected, stopping at 5
+    for keyword, _ in ranked_keywords:
+        if len(recommended_videos) >= 5:
+            break
+
         videos = call_youtube_api(keyword)
         for video in videos:
-            recommended_videos.append(video['videoUrl'])
+            if len(recommended_videos) < 5:
+                if video['videoUrl'] not in recommended_videos:
+                    recommended_videos.append(video['videoUrl'])
+            else:
+                break
 
-    # Return a unique list of video URLs
-    return list(set(recommended_videos))
+    return recommended_videos
 
 
 def get_verbs(resume_text):

@@ -17,6 +17,7 @@ interface ResumeResponse {
     resume_text: string;
     numbers_query: string[];
     verbs_query: string[];
+    youtube_query: string[];
     resume_strength: string;
     job_opportunities: JobOpportunity[];
     recommended_youtube_videos: string[];
@@ -26,8 +27,14 @@ interface SubmittedAnalysisProps {
     response: ResumeResponse | null;
 }
 
-const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[]) => {
+const highlightText = (
+    text: string,
+    numbersQuery: string[],
+    verbsQuery: string[],
+    youtubeQuery: string[]
+  ) => {
     return text.split(/(\W+)/).map((word, index) => {
+      // Highlight numbers query
       if (numbersQuery.some(query => word.includes(query))) {
         return (
           <Box as="span" key={index} bg="green.100" px="2" py="1" rounded="full">
@@ -35,13 +42,24 @@ const highlightText = (text: string, numbersQuery: string[], verbsQuery: string[
           </Box>
         );
       } 
+      // Highlight verbs query
       else if (verbsQuery.includes(word)) {
         return (
           <Box as="span" key={index} bg="blue.100" px="2" py="1" rounded="full">
             {word}
           </Box>
         );
-      }
+      } 
+      // Highlight YouTube-related keywords
+      else if (youtubeQuery.includes(word)) {
+        return (
+          <Box as="span" key={index} bg="red.100" px="2" py="1" rounded="full">
+            {word}
+          </Box>
+        );
+      } 
+  
+      // Default: return the word without any highlighting
       return word;
     });
   };
@@ -51,11 +69,11 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
 
     const [showNumbers, setShowNumbers] = useState(true);
     const [showVerbs, setShowVerbs] = useState(true);
-    const [showYoutubeRecs, setYoutubeRecs] = useState(true);
+    const [showYoutube, setYoutube] = useState(true);
 
     const toggleNumbers = () => setShowNumbers(!showNumbers);
     const toggleVerbs = () => setShowVerbs(!showVerbs);
-    const toggleYoutubeRecs = () => setYoutubeRecs(!showYoutubeRecs);
+    const toggleYoutube = () => setYoutube(!showYoutube);
 
     if (!response) {
         return null;
@@ -95,14 +113,14 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
                         {showVerbs ? "Hide Verbs" : "Show Verbs"}
                     </Button>
                     <Button
-                        onClick={toggleYoutubeRecs}
+                        onClick={toggleYoutube}
                         size="sm"
-                        variant={showYoutubeRecs ? "solid" : "ghost"}
-                        bg={showYoutubeRecs ? "red.200" : "red.100"}
-                        fontWeight={showYoutubeRecs ? "bold" : "normal"}
+                        variant={showYoutube ? "solid" : "ghost"}
+                        bg={showYoutube ? "red.200" : "red.100"}
+                        fontWeight={showYoutube ? "bold" : "normal"}
                         color="black"
                         >
-                        {showYoutubeRecs ? "Hide YouTube Recommendations" : "Show YouTube Recommendations"}
+                        {showYoutube ? "Hide YouTube" : "Show YouTube"}
                     </Button>
                 </Box>
             </HStack>
@@ -110,7 +128,8 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
                 {highlightText(
                 response.resume_text,
                 showNumbers ? response.numbers_query : [],
-                showVerbs ? response.verbs_query : []
+                showVerbs ? response.verbs_query : [],
+                showYoutube ? response.youtube_query : []
                 )}
             </Box>
             </Box>

@@ -3,6 +3,7 @@
     "resume_strength": "Strong",
     "numbers_query": ["20", "40"],
     "verbs_query": ["Automated"],
+    "youtube_query": ["developer", "MLOps"],
     "job_opportunities": [
       {
         "job_title": "Frontend Developer",

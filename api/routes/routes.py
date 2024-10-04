@@ -9,7 +9,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
-from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos, get_verbs, get_numbers
+from routes.api import analyze_resume_strength, suggest_job_opportunities, recommend_youtube_videos, get_verbs, get_numbers, get_youtube_keywords
 
 
 uri = os.getenv("MONGODB_URL")
@@ -44,6 +44,7 @@ async def upload_resume(file: UploadFile = File(...)):
         job_opportunities = suggest_job_opportunities(resume_text)
         youtube_videos = recommend_youtube_videos(resume_text)
         numbers_query = get_numbers(resume_text)
+        youtube_query = get_youtube_keywords(resume_text)
         verbs_query = get_verbs(resume_text)
       
 
@@ -51,6 +52,7 @@ async def upload_resume(file: UploadFile = File(...)):
             "resume_text": resume_text,
             "numbers_query": numbers_query,
             "verbs_query": verbs_query,
+            "youtube_query": youtube_query,
             "resume_strength": resume_strength,
             "job_opportunities": job_opportunities,
             "recommended_youtube_videos": youtube_videos

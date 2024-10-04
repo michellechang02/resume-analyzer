@@ -20,6 +20,7 @@ interface ResumeResponse {
   resume_text: string;
   numbers_query: string[];
   verbs_query: string[];
+  youtube_query: string[];
   resume_strength: string;
   job_opportunities: JobOpportunity[];
   recommended_youtube_videos: string[];
