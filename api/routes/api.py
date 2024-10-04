@@ -1,6 +1,7 @@
 import requests
 import re
 from typing import List
+from routes.constants import COMMON_KEYWORDS, STOPWORDS
 
 
 # Placeholder function to analyze resume strength
@@ -70,21 +71,21 @@ def suggest_job_opportunities(resume_text: str) -> List[str]:
     # Return the job opportunities
     return job_opportunities
 
-def call_youtube_api(query: str) -> list:
-   url = "https://youtube-v31.p.rapidapi.com/search"
-   headers = {
+def call_youtube_api(query: str) -> List[dict]:
+    url = "https://youtube-v31.p.rapidapi.com/search"
+    headers = {
         "x-rapidapi-host": "youtube-v31.p.rapidapi.com",
         "x-rapidapi-key": "e76eef3aa7msh8f954766c77e6e0p15c728jsn199ab7529201"
     }
-   params = {
-        "relatedToVideoId": query,
+    params = {
+        "q": query,
         "part": "id,snippet",
         "type": "video",
         "maxResults": 10
     }
-   response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params)
 
-   if response.status_code == 200:
+    if response.status_code == 200:
         data = response.json()
         videos = []
         for item in data.get("items", []):
@@ -92,21 +93,50 @@ def call_youtube_api(query: str) -> list:
                 "videoId": item["id"].get("videoId"),
                 "title": item["snippet"].get("title"),
                 "channelTitle": item["snippet"].get("channelTitle"),
-                "publishedAt": item["snippet"].get("publishedAt")
+                "publishedAt": item["snippet"].get("publishedAt"),
+                "videoUrl": f"https://www.youtube.com/watch?v={item['id'].get('videoId')}"
             }
             videos.append(video_info)
         return videos
-   else: # error handling
+    else:
+        # Error handling
         print(f"Error: {response.status_code}")
         return []
 
 
-# hard code for now!
-def recommend_youtube_videos(resume_text: str) -> List[str]:
-    # Recommend YouTube videos based on job opportunities
-    query_to_invoke = ""
-    return ["https://www.youtube.com/watch?v=abcd1234, https://www.youtube.com/watch?v=efgh5678"]
+# Manually improved function to extract keywords from resume text
+def extract_keywords(resume_text: str) -> List[str]:
+    # Split the text into words
+    words = re.findall(r'\b\w+\b', resume_text)
 
+    # Initialize a list to store keywords
+    keywords = []
+
+    for word in words:
+        # Convert word to lowercase for standardization
+        lower_word = word.lower()
+
+        # Ignore short words, stopwords, and common filler words
+        if len(lower_word) > 3 and lower_word not in STOPWORDS:
+            # Check if the word is in the common keywords list or has certain characteristics
+            if lower_word in COMMON_KEYWORDS:
+                keywords.append(word)
+
+    return list(set(keywords))
+
+
+def recommend_youtube_videos(resume_text: str) -> List[str]:
+    keywords = extract_keywords(resume_text)
+    recommended_videos = []
+
+    # Get videos for each keyword (you can adjust to improve relevance)
+    for keyword in keywords:
+        videos = call_youtube_api(keyword)
+        for video in videos:
+            recommended_videos.append(video['videoUrl'])
+
+    # Return a unique list of video URLs
+    return list(set(recommended_videos))
 
 
 def get_verbs(resume_text):
