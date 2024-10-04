@@ -126,7 +126,7 @@ def extract_keywords(resume_text: str) -> List[str]:
 
 
 def recommend_youtube_videos(resume_text: str) -> List[str]:
-    keywords = extract_keywords(resume_text)
+    keywords = extract_keywords(resume_text)[5]
     recommended_videos = []
 
     # Get videos for each keyword (you can adjust to improve relevance)

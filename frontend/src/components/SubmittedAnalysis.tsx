@@ -51,9 +51,11 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
 
     const [showNumbers, setShowNumbers] = useState(true);
     const [showVerbs, setShowVerbs] = useState(true);
+    const [showYoutubeRecs, setYoutubeRecs] = useState(true);
 
     const toggleNumbers = () => setShowNumbers(!showNumbers);
     const toggleVerbs = () => setShowVerbs(!showVerbs);
+    const toggleYoutubeRecs = () => setYoutubeRecs(!showYoutubeRecs);
 
     if (!response) {
         return null;
@@ -71,25 +73,36 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
                 </Heading>
                 <Box>
                     <Button
-                    onClick={toggleNumbers}
-                    mr={2}
-                    size="sm"
-                    variant={showNumbers ? 'solid' : 'ghost'}
-                    bg={showNumbers ? 'green.200' : 'green.100'}
-                    fontWeight={showNumbers ? 'bold' : 'normal'}
-                    color="black"
-                    >
-                    {showNumbers ? 'Hide Numbers' : 'Show Numbers'}
+                        onClick={toggleNumbers}
+                        mr={2}
+                        size="sm"
+                        variant={showNumbers ? "solid" : "ghost"}
+                        bg={showNumbers ? "green.200" : "green.100"}
+                        fontWeight={showNumbers ? "bold" : "normal"}
+                        color="black"
+                        >
+                        {showNumbers ? "Hide Numbers" : "Show Numbers"}
                     </Button>
                     <Button
-                    onClick={toggleVerbs}
-                    size="sm"
-                    variant={showVerbs ? 'solid' : 'ghost'}
-                    bg={showVerbs ? 'blue.200' : 'blue.100'}
-                    fontWeight={showVerbs ? 'bold' : 'normal'}
-                    color="black"
-                    >
-                    {showVerbs ? 'Hide Verbs' : 'Show Verbs'}
+                        onClick={toggleVerbs}
+                        mr={2}
+                        size="sm"
+                        variant={showVerbs ? "solid" : "ghost"}
+                        bg={showVerbs ? "blue.200" : "blue.100"}
+                        fontWeight={showVerbs ? "bold" : "normal"}
+                        color="black"
+                        >
+                        {showVerbs ? "Hide Verbs" : "Show Verbs"}
+                    </Button>
+                    <Button
+                        onClick={toggleYoutubeRecs}
+                        size="sm"
+                        variant={showYoutubeRecs ? "solid" : "ghost"}
+                        bg={showYoutubeRecs ? "red.200" : "red.100"}
+                        fontWeight={showYoutubeRecs ? "bold" : "normal"}
+                        color="black"
+                        >
+                        {showYoutubeRecs ? "Hide YouTube Recommendations" : "Show YouTube Recommendations"}
                     </Button>
                 </Box>
             </HStack>
@@ -151,9 +164,27 @@ const SubmittedAnalysis: React.FC<SubmittedAnalysisProps> = ({ response }) => {
             <Heading as="h3" size="lg" mb={4}>
                 YouTube Recommendations
             </Heading>
-            <Text color="gray.700">
-                <strong>Recommendations:</strong> {response.recommended_youtube_videos.join(", ")}
-            </Text>
+            <Box>
+                {response.recommended_youtube_videos.map((videoUrl, index) => {
+                // Extract video ID from the URL
+                const videoId = videoUrl.split('v=')[1];
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
+                return (
+                    <Box key={index} mb={4}>
+                    <iframe
+                        width="560"
+                        height="315"
+                        src={embedUrl}
+                        title={`YouTube video ${index + 1}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                    </Box>
+                );
+                })}
+            </Box>
             </Box>
         </VStack>
 
